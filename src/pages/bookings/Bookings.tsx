@@ -49,7 +49,7 @@ function Bookings() {
 
     return (
         <div>
-            <PageTitle title="Bookings" />
+            <PageTitle title="My Bookings" />
 
             {toggleModal && deleteInfo &&
                 <Modal

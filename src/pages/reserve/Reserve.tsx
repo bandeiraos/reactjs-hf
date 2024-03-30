@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Form from '../../components/form/Form';
 import PropertyCard from '../../components/property-card/PropertyCard';
 import { useBookingContext } from '../../context/context';
-import { getBookingsByProperty } from '../../utils/utils';
 import PageTitle from '../../components/common/page-title/PageTitle';
 import NotFound from '../not-found/NotFound';
 import { BookingType, PropertyType } from '../../types/types';
@@ -24,7 +23,7 @@ function Reserve() {
         isEdit: boolean = !!booking,
         propertyId: string | undefined = isEdit ? booking?.idProperty : id,
         property: PropertyType | null = propertyId ? propertiesNormalized[propertyId] : null,
-        propertyBookings: BookingType[] = (propertyId && getBookingsByProperty(propertyId, bookings, bookingId)) || [],
+        propertyBookings: BookingType[] = isEdit ? bookings.filter(b => b.id !== bookingId) : bookings,
         navigate = useNavigate();
 
     const handleClickConfirm = useCallback((start: string, end: string) => {

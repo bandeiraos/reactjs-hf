@@ -11,7 +11,7 @@ export const normalizeData = <T extends { id: string; }>(array: T[]): Normalized
 
 const checkDateConflict = (start: string, end: string, bookings: BookingType[]) => {
     for (let i = 0; i < bookings.length; i++) {
-        const { startDate, endDate, id } = bookings[i];
+        const { startDate, endDate } = bookings[i];
         if (moment(start).isBetween(startDate, endDate, null, '[]')) {
             return { booking: bookings[i], target: "start" };
         } else if (moment(end).isBetween(startDate, endDate, null, '[]')) {
@@ -33,12 +33,6 @@ export const calculateTotal = (start: string, end: string, price: number): { nig
 export const formatDate = (date: string) => moment(date).format('MM/DD/yyyy');
 
 export const formatCurrency = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD" });
-
-export const getBookingsByProperty = (id: string, bookings: BookingType[], bookingId: string | undefined) => {
-    return bookings.filter((b) => {
-        return b.idProperty === id && b.id !== bookingId;
-    });
-};
 
 const isDateBeforeToday = (date: string) => {
     return moment(date).startOf('day') < moment().startOf('day');

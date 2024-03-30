@@ -9,7 +9,7 @@ function Header() {
                 </strong>
                 <nav className="flex gap-4 underline">
                     <Link to={'/'}>Properties</Link>
-                    <Link to={'/bookings'}>Bookings</Link>
+                    <Link to={'/bookings'}>My bookings</Link>
                 </nav>
             </div>
         </div>

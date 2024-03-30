@@ -1,3 +1,7 @@
+/*  I did this mock to simulate an API response.
+    Feel free to add new properties (:
+*/
+
 import { PropertyType } from "../types/types";
 import img1 from "../../public/images/properties/p1.webp";
 import img2 from "../../public/images/properties/p2.webp";
