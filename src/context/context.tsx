@@ -19,8 +19,12 @@ const df = {
 
 const BookingContext = createContext<DefaultCtxValuesType>(df);
 
-const BookingProvider = ({ ...props }) => {
+export type BookingProviderProps = {
+    values?: Partial<DefaultCtxValuesType>;
+    children: React.ReactElement;
+};
 
+const BookingProvider = ({ values, ...props }: BookingProviderProps) => {
     const [bookings, setBookings] = useState<BookingType[]>(df.bookings);
     const [bookingsNormalized, setBookingsNormalized] = useState<BookingsNormalizedType>({});
     const [toastQueue, setToastQueue] = useState<ToastType[]>([]);
@@ -91,7 +95,8 @@ const BookingProvider = ({ ...props }) => {
         toastQueue,
         handleCreateBooking,
         handleEditBooking,
-        handleDeleteBooking
+        handleDeleteBooking,
+        ...values
     }} {...props} />;
 };
 

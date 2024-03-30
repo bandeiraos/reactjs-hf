@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Bookings from "../pages/bookings/Bookings";
 import PropertyList from "../pages/property-list/PropertyList";
-import Layout from "../layout/layout/Layout";
+import Layout from "../pages/layout/layout/Layout";
 import Reserve from "../pages/reserve/Reserve";
 import NotFound from "../pages/not-found/NotFound";
 

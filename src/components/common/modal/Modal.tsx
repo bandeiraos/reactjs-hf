@@ -8,7 +8,6 @@ type ModalProps = {
 };
 
 function Modal(props: ModalProps) {
-
     const cancelBtnRef: React.RefObject<HTMLButtonElement> = useRef(null);
 
     useEffect(() => {
@@ -24,12 +23,12 @@ function Modal(props: ModalProps) {
     }, [cancelBtnRef]);
 
     return (
-        <dialog open className="fixed top-0 z-10 p-6 w-full h-full bg-black/60">
+        <dialog data-cy="modal" open className="fixed top-0 z-10 p-6 w-full h-full bg-black/60">
             <div className="rounded bg-slate-50 p-8 mt-20 md:max-w-[400px] md:m-auto md:mt-20">
                 <div> {props.Body} </div>
 
                 <div className="mt-4 flex justify-between">
-                    <Button btnRef={cancelBtnRef} title="Cancel" onClick={props.onCancel} className="bg-slate-500" />
+                    <Button dataCy="cancel-btn" btnRef={cancelBtnRef} title="Cancel" onClick={props.onCancel} className="bg-slate-500" />
                     {props.ButtonConfirm}
                 </div>
             </div>

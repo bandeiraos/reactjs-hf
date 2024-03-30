@@ -4,7 +4,7 @@ type PageTitleProps = {
 
 function PageTitle(props: PageTitleProps) {
     return (
-        <h1 className="text-2xl font-bold mb-4">
+        <h1 data-cy="page-title" className="text-2xl font-bold mb-4">
             {props.title}
         </h1>
     );

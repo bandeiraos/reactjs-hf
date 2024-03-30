@@ -1,0 +1,9 @@
+{
+    "id": "1",
+    "name": "Apartment HF Village",
+    "description": "Apartment HF Village is located in Rio de Janeiro, just 1.5 miles from Linkin Park.",
+    "img": "/path/image.png",
+    "location": "Rio de Janeiro",
+    "rating": 9,
+    "price": 500
+}

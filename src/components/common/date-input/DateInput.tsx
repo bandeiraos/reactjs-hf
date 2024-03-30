@@ -1,4 +1,4 @@
-type DateInputProps = {
+export type DateInputProps = {
     title: string;
     value: string | undefined;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,7 +9,7 @@ function DateInput(props: DateInputProps) {
     const { title, value, onChange, min } = props;
 
     return (
-        <label className="flex flex-col">
+        <label data-cy="date-field" className="flex flex-col">
             <span className="font-bold">{title}</span>
             <input
                 className="p-3 border rounded"
