@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { PROPERTIES } from "../api/api";
-import { BookingType, BookingsNormalizedType, DefaultCtxValuesType } from "../types/types";
+import { BookingType, BookingsNormalizedType, DefaultCtxValuesType, ToastType } from "../types/types";
 import { calculateTotal, normalizeData } from "../utils/utils";
 
 const properties = PROPERTIES;
@@ -9,44 +9,21 @@ const propertiesNormalized = normalizeData(PROPERTIES);
 const df = {
     properties: properties,
     propertiesNormalized,
-    bookings: [
-        // {
-        //     "id": "aa98107c-9d35-4e73-ae00-26caa55ad6be",
-        //     "idProperty": "3",
-        //     "startDate": "2024-03-28",
-        //     "endDate": "2024-03-29",
-        //     "total": 320,
-        //     "nights": 1
-        // },
-        // {
-        //     "id": "2d365625-1dfd-4ea2-bd72-6301e723e3e7",
-        //     "idProperty": "1",
-        //     "startDate": "2024-03-29",
-        //     "endDate": "2024-04-04",
-        //     "total": 3000,
-        //     "nights": 6
-        // },
-        // {
-        //     "id": "063298ae-96a3-43d2-8c36-0fe14c4bb708",
-        //     "idProperty": "2",
-        //     "startDate": "2024-03-29",
-        //     "endDate": "2024-04-04",
-        //     "total": 1500,
-        //     "nights": 6
-        // }
-    ],
+    bookings: [],
     bookingsNormalized: {},
+    toastQueue: [],
     handleCreateBooking: () => { },
     handleEditBooking: () => { },
     handleDeleteBooking: () => { }
 };
 
-export const BookingContext = createContext<DefaultCtxValuesType>(df);
+const BookingContext = createContext<DefaultCtxValuesType>(df);
 
 const BookingProvider = ({ ...props }) => {
 
     const [bookings, setBookings] = useState<BookingType[]>(df.bookings);
     const [bookingsNormalized, setBookingsNormalized] = useState<BookingsNormalizedType>({});
+    const [toastQueue, setToastQueue] = useState<ToastType[]>([]);
 
     useEffect(() => {
         setBookingsNormalized(normalizeData(bookings));
@@ -55,10 +32,11 @@ const BookingProvider = ({ ...props }) => {
     const handleCreateBooking = (idProperty: string, start: string, end: string) => {
         const property = propertiesNormalized[idProperty];
         const { nights, total } = calculateTotal(start, end, property.price);
+        const id = crypto.randomUUID().split('-')[0];
 
         setBookings((prev) => {
             return [...prev, {
-                id: crypto.randomUUID(),
+                id,
                 idProperty: idProperty,
                 startDate: start,
                 endDate: end,
@@ -66,6 +44,8 @@ const BookingProvider = ({ ...props }) => {
                 nights
             }];
         });
+
+        handleShowToast(`Booking #${id} successfully created.`);
     };
 
     const handleEditBooking = useCallback((idProperty: string, start: string, end: string, idBooking: string) => {
@@ -83,10 +63,24 @@ const BookingProvider = ({ ...props }) => {
 
         setBookings(newBookings);
 
+        handleShowToast(`Booking #${idBooking} successfully updated.`);
     }, [bookings]);
 
-    const handleDeleteBooking = (bookingId: string) => {
-        setBookings((prev) => prev.filter(b => b.id !== bookingId));
+    const handleDeleteBooking = (idBooking: string) => {
+        setBookings((prev) => prev.filter(b => b.id !== idBooking));
+
+        handleShowToast(`Booking #${idBooking} successfully removed.`);
+    };
+
+    const handleShowToast = (msg: string) => {
+        const id = Math.random();
+        const toast: ToastType = { id, msg };
+
+        setToastQueue(prev => [...prev, toast]);
+
+        setTimeout(() => {
+            setToastQueue(prev => prev.filter(t => t.id !== id));
+        }, 1500);
     };
 
     return <BookingContext.Provider value={{
@@ -94,6 +88,7 @@ const BookingProvider = ({ ...props }) => {
         bookingsNormalized,
         properties,
         propertiesNormalized,
+        toastQueue,
         handleCreateBooking,
         handleEditBooking,
         handleDeleteBooking

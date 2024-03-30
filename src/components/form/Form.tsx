@@ -7,8 +7,6 @@ import Button from "../common/button/Button";
 
 const todayMin = moment().format('yyyy-MM-DD');
 
-const initialErrorsState = { start: [], end: [] };
-
 type FormProps = {
     startDate: string;
     endDate: string;
@@ -22,7 +20,7 @@ function Form(props: FormProps) {
     const { startDate, endDate, bookings, price, isEdit, handleClickConfirm } = props;
     const [start, setStart] = useState(startDate);
     const [end, setEnd] = useState(endDate);
-    const [errors, setErrors] = useState<ErrorsType>(initialErrorsState);
+    const [errors, setErrors] = useState<ErrorsType>({ start: [], end: [] });
     const [info, setInfo] = useState({ nights: 0, total: 0 });
 
     const shouldShowInfo = start && end && !errors.start.length && !errors.end.length;

@@ -1,27 +1,25 @@
 import { useCallback, useMemo, useState } from "react";
 import { useBookingContext } from "../../context/context";
-import { BookingType, PropertyType } from "../../types/types";
+import { BookingType, DeleteBookingInfoType, PropertyType } from "../../types/types";
+import { formatDate, groupBookings } from "../../utils/utils";
 import Button from "../../components/common/button/Button";
 import Modal from "../../components/common/modal/Modal";
 import BookingCard from "../../components/booking-card/BookingCard";
 import PageTitle from "../../components/common/page-title/PageTitle";
 import EmptyState from "../../components/common/empty-state/EmptyState";
 
-type DeleteInfoType = {
-    booking: BookingType;
-    property: PropertyType;
-};
-
 function Bookings() {
     const { bookings, propertiesNormalized, handleDeleteBooking } = useBookingContext();
     const [toggleModal, setToggleModal] = useState(true);
-    const [deleteInfo, setDeleteInfo] = useState<DeleteInfoType | null>(null);
+    const [deleteInfo, setDeleteInfo] = useState<DeleteBookingInfoType | null>(null);
+    const bookingsGrouped = groupBookings(bookings);
 
     const handleOpenDeleteModal = useCallback((booking: BookingType, property: PropertyType) => {
         setDeleteInfo({
             booking,
             property
         });
+
         setToggleModal(true);
     }, []);
 
@@ -34,6 +32,7 @@ function Bookings() {
     }, [deleteInfo, handleDeleteBooking]);
 
     const bodyMemo = useMemo(() => {
+        if (!deleteInfo) return;
         return (
             <div>
                 <span className="font-bold">Are you sure you want to remove this booking?</span>
@@ -41,7 +40,7 @@ function Bookings() {
                     <ul>
                         <li><strong>ID: </strong><span className="text-xs">{deleteInfo?.booking.id}</span></li>
                         <li><strong>Location: </strong>{deleteInfo?.property.name}</li>
-                        <li><strong>Dates: </strong>{deleteInfo?.booking.startDate} - {deleteInfo?.booking.endDate}</li>
+                        <li><strong>Dates: </strong>{formatDate(deleteInfo?.booking.startDate)} - {formatDate(deleteInfo?.booking.endDate)}</li>
                     </ul>
                 </div>
             </div>
@@ -53,21 +52,39 @@ function Bookings() {
             <PageTitle title="Bookings" />
 
             {toggleModal && deleteInfo &&
-                (<Modal
+                <Modal
                     Body={bodyMemo}
                     onCancel={() => setToggleModal(false)}
-                    ButtonConfirm={
-                        <Button title="Delete" onClick={handleConfirmDeletion} className="bg-red-600" />
-                    }
-                />)
+                    ButtonConfirm={<Button title="Delete" onClick={handleConfirmDeletion} className="bg-red-600" />}
+                />
             }
 
             <div>
-                {!bookings.length ? <EmptyState /> :
+                {!bookings.length ? <EmptyState />
+                    :
+                    Object.keys(bookingsGrouped).map(idP => {
+                        const property = propertiesNormalized[idP];
+                        const propertyBookings = bookingsGrouped[idP];
 
-                    bookings.map(b =>
-                        <BookingCard key={b.id} booking={b} property={propertiesNormalized[b.idProperty]} handleClickDelete={handleOpenDeleteModal} />
-                    )}
+                        return (
+                            <div key={idP} className="mb-6">
+                                <div className="mb-4">
+                                    <span className="font-bold text-xl text-slate-700">
+                                        🏡 {property.name}
+                                    </span>
+                                </div>
+
+                                <div className="md:grid md:grid-cols-3 gap-4">
+                                    {propertyBookings.map((booking) => (
+                                        <BookingCard
+                                            key={booking.id}
+                                            booking={booking}
+                                            handleClickDelete={() => handleOpenDeleteModal(booking, property)} />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
             </div>
 
         </div>

@@ -34,11 +34,22 @@ export type ErrorsType = {
     end: string[];
 };
 
+export type ToastType = {
+    id: number,
+    msg: string;
+};
+
+export type DeleteBookingInfoType = {
+    booking: BookingType;
+    property: PropertyType;
+};
+
 export type DefaultCtxValuesType = {
     propertiesNormalized: PropertiesNormalizedType;
     properties: PropertyType[];
     bookings: BookingType[];
     bookingsNormalized: BookingsNormalizedType;
+    toastQueue: ToastType[],
     handleCreateBooking: (idProperty: string, s: string, e: string) => void;
     handleEditBooking: (idProperty: string, s: string, e: string, id: string) => void;
     handleDeleteBooking: (idBooking: string) => void;

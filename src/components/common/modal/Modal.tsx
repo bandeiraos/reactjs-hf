@@ -24,13 +24,8 @@ function Modal(props: ModalProps) {
     }, [cancelBtnRef]);
 
     return (
-        <dialog
-            open
-            className="fixed top-0 z-10 p-6 w-full h-full bg-black/60"
-        >
-            <div
-                className="rounded bg-slate-50 p-8 mt-20 md:max-w-[400px] md:m-auto md:mt-20"
-            >
+        <dialog open className="fixed top-0 z-10 p-6 w-full h-full bg-black/60">
+            <div className="rounded bg-slate-50 p-8 mt-20 md:max-w-[400px] md:m-auto md:mt-20">
                 <div> {props.Body} </div>
 
                 <div className="mt-4 flex justify-between">

@@ -1,6 +1,4 @@
-import {
-    createBrowserRouter
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Bookings from "../pages/bookings/Bookings";
 import PropertyList from "../pages/property-list/PropertyList";
 import Layout from "../layout/layout/Layout";

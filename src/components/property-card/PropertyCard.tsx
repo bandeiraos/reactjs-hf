@@ -12,7 +12,7 @@ function PropertyCard(props: PropertyCardProps) {
             md:flex-row md:max-h-[350px]
         ">
             <div className='flex justify-center mb-8 md:mb-0'>
-                <img className='rounded max-w-[270px] md:max-w-[200px] md:w-auto'
+                <img className='rounded max-w-[240px] md:max-w-[200px] md:w-auto'
                     src={props.img}
                     alt={props.name}
                 />
@@ -20,7 +20,7 @@ function PropertyCard(props: PropertyCardProps) {
 
             <div className='flex md:ml-4 md:max-w-xl md:w-[600px] md:p-4'>
                 <div className='flex flex-col'>
-                    <h2 className='font-bold text-xl'>{props.name}</h2>
+                    <h2 className='font-bold text-xl text-slate-700'>{props.name}</h2>
                     <span className='text-slate-500 text-sm mt-1'>📍 {props.location}</span>
                     <p className='text-sm mt-2'>{props.description}</p>
                 </div>
@@ -29,7 +29,7 @@ function PropertyCard(props: PropertyCardProps) {
             <div className='md:flex md:flex-col md:items-end md:justify-between md:ml-8 md:w-[250px] md:pr-8 md:py-4'>
                 <div className='flex justify-between mt-4 md:flex-col md:gap-2 md:items-start'>
                     <div className='flex items-center'>
-                        ⭐ {props.rating}
+                        <span>⭐ {props.rating}</span>
                         <span className='text-slate-400 text-xs'>/10</span>
                     </div>
                     <div className='flex items-center justify-center'>

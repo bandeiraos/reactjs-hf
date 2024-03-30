@@ -103,11 +103,27 @@ export const validateDates = (start: string, end: string, bookings: BookingType[
             errors.start.push('Please select different dates for the start and end of the booking.');
         }
 
-        // i'm putting a max of 1 year to stay in the place
+        // i'm putting a max of 1 year to stay in the property
         if (isDateRangeTooBig(start, end)) {
             errors.start.push('Please select dates within a maximum range of 365 days');
         }
     }
 
     return errors;
+};
+
+export const groupBookings = (bookings: BookingType[]) => {
+    const groupedItems: { [key: string]: BookingType[]; } = {};
+
+    bookings.forEach(b => {
+        const idProperty = b.idProperty;
+
+        if (!groupedItems[idProperty]) {
+            groupedItems[idProperty] = [];
+        }
+
+        groupedItems[idProperty].push(b);
+    });
+
+    return groupedItems;
 };

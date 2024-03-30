@@ -29,6 +29,6 @@ export const PROPERTIES: PropertyType[] = [
         img: img3,
         location: "Tokio",
         rating: 8,
-        price: 320
+        price: 325
     },
 ];

@@ -1,10 +1,14 @@
+// This component is used both for create and edit a booking
+
+import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Form from '../../components/form/Form';
 import PropertyCard from '../../components/property-card/PropertyCard';
 import { useBookingContext } from '../../context/context';
-import { useCallback } from 'react';
 import { getBookingsByProperty } from '../../utils/utils';
 import PageTitle from '../../components/common/page-title/PageTitle';
+import NotFound from '../not-found/NotFound';
+import { BookingType, PropertyType } from '../../types/types';
 
 function Reserve() {
     const {
@@ -13,13 +17,14 @@ function Reserve() {
         bookingsNormalized,
         handleCreateBooking,
         handleEditBooking,
-    } = useBookingContext(),
-        { id, bookingId } = useParams(),
-        booking = bookingId ? bookingsNormalized[bookingId] : null,
-        isEdit = !!booking,
-        propertyId = id ?? booking?.idProperty,
-        property = propertyId ? propertiesNormalized[propertyId] : null,
-        propertyBookings = propertyId && getBookingsByProperty(propertyId, bookings, bookingId),
+    } = useBookingContext();
+
+    const { id, bookingId } = useParams(),
+        booking: BookingType | null = bookingId ? bookingsNormalized[bookingId] : null,
+        isEdit: boolean = !!booking,
+        propertyId: string | undefined = isEdit ? booking?.idProperty : id,
+        property: PropertyType | null = propertyId ? propertiesNormalized[propertyId] : null,
+        propertyBookings: BookingType[] = (propertyId && getBookingsByProperty(propertyId, bookings, bookingId)) || [],
         navigate = useNavigate();
 
     const handleClickConfirm = useCallback((start: string, end: string) => {
@@ -28,11 +33,12 @@ function Reserve() {
         } else {
             handleCreateBooking(propertyId!, start, end);
         }
+
         navigate('/bookings');
     }, [propertyId, isEdit, bookingId, handleCreateBooking, handleEditBooking, navigate]);
 
     if (!property)
-        return 'Not found';
+        return <NotFound />;
 
     return (
         <div>
@@ -41,10 +47,10 @@ function Reserve() {
             <section>
                 <Form
                     handleClickConfirm={handleClickConfirm}
-                    bookings={propertyBookings || []}
+                    bookings={propertyBookings}
                     price={property.price}
-                    startDate={isEdit ? booking.startDate : ""}
-                    endDate={isEdit ? booking.endDate : ""}
+                    startDate={isEdit ? booking!.startDate : ""}
+                    endDate={isEdit ? booking!.endDate : ""}
                     isEdit={isEdit}
                 />
             </section>
@@ -53,6 +59,7 @@ function Reserve() {
                 <div className='mb-4'>
                     <span className='font-bold'>About the property:</span>
                 </div>
+
                 <PropertyCard {...property} />
             </section>
         </div>

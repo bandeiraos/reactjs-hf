@@ -7,7 +7,7 @@ function PropertyList() {
     const { properties } = useBookingContext();
     return (
         <div>
-            <PageTitle title="Places" />
+            <PageTitle title="Properties" />
 
             {!properties.length ? <EmptyState /> :
                 properties.map(p => (

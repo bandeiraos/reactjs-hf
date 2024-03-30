@@ -10,9 +10,7 @@ function useRestoreScroll() {
         window.scrollTo(0, 0);
     }, [pathname]);
 
-
     return null;
 }
-
 
 export default useRestoreScroll;
