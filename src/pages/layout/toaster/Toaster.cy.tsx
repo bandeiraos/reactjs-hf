@@ -8,11 +8,10 @@ describe('<Toaster />', () => {
           { id: 123, msg: 'Booking created!' }
         ]
       }
-    }
-    );
+    });
 
     cy.dataCy('toaster')
-      .dataCy('toast-123')
+      .dataCy('toast')
       .should('have.text', 'Booking created!');
   });
 });
