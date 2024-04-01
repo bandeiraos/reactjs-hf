@@ -1,5 +1,5 @@
 import { BookingType, PropertiesNormalizedType } from '../../types/types';
-import { formatDate } from '../../utils/utils';
+import { formatDate, normalizeData } from '../../utils/utils';
 import Bookings from './Bookings';
 
 describe('<Bookings />', () => {
@@ -11,8 +11,8 @@ describe('<Bookings />', () => {
       bookings = data;
     });
 
-    cy.fixture('propertiesNormalized').then(data => {
-      propertiesNormalized = data;
+    cy.fixture('properties').then(data => {
+      propertiesNormalized = normalizeData(data);
     });
 
   });

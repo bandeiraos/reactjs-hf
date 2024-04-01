@@ -36,7 +36,7 @@ describe('<Modal />', () => {
   });
 
   context('behavior tests', () => {
-    it('calls onCancelSpy', () => {
+    it('calls onCancel', () => {
       cy.dataCy('modal-cancel-btn').click();
       cy.get('@onCancelSpy').should('have.been.calledOnce');
     });

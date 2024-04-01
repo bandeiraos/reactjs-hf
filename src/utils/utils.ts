@@ -1,5 +1,6 @@
 import moment from "moment";
 import { BookingType, ErrorsType, NormalizedType } from "../types/types";
+import { ERRORS } from "../api/constants/constants";
 
 export const normalizeData = <T extends { id: string; }>(array: T[]): NormalizedType<T> => {
     return array.reduce((obj: NormalizedType<T>, item: T) => {
@@ -60,22 +61,22 @@ export const validateDates = (start: string, end: string, bookings: BookingType[
     // start date validation
     if (start) {
         if (isDateBeforeToday(start)) {
-            errors.start.push("Starting date cannot be in the past.");
+            errors.start.push(ERRORS.START_PAST);
         }
 
         if (end && isStartAfterEnd(start, end)) {
-            errors.start.push("Start date must be before end date.");
+            errors.start.push(ERRORS.START_AFTER_END);
         }
 
         if (isDateTooFar(start)) {
-            errors.start.push("Start date should be less than 1 year");
+            errors.start.push(ERRORS.START_YEAR_LIMIT);
         }
     }
 
     // end date validation
     if (end) {
         if (isDateBeforeToday(end)) {
-            errors.end.push("Ending date cannot be in the past.");
+            errors.end.push(ERRORS.END_PAST);
         }
     }
 
@@ -87,19 +88,28 @@ export const validateDates = (start: string, end: string, bookings: BookingType[
         if (hasConflict) {
             const { booking, target } = hasConflict;
             const shortUid = booking.id.split('-')[0];
+            const strMap: { [a: string]: string; } = {
+                "%t": target,
+                "%id": shortUid,
+                "%sd": formatDate(booking.startDate),
+                "%ed": formatDate(booking.endDate)
+            };
+            const errMsg = Object.keys(strMap).reduce(
+                (acc, item) => acc.replace(item, strMap[item]),
+                ERRORS.BOOKING_CONFLICT
+            );
 
-            errors[target as keyof typeof errors]
-                .push(`Your ${target} date has conflict with booking #${shortUid} (${formatDate(booking.startDate)} to ${formatDate(booking.endDate)}).`);
+            errors[target as keyof typeof errors].push(errMsg);
         }
 
         // same date validation
         if (start === end) {
-            errors.start.push('Please select different dates for the start and end of the booking.');
+            errors.start.push(ERRORS.SAME_DATE);
         }
 
         // i'm putting a max of 1 year to stay in the property
         if (isDateRangeTooBig(start, end)) {
-            errors.start.push('Please select dates within a maximum range of 365 days');
+            errors.start.push(ERRORS.MAX_DAYS_STAY);
         }
     }
 

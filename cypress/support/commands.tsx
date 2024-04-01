@@ -18,8 +18,8 @@ declare global {
             */
             mountAll(
                 component: React.ReactElement,
-                providerOpts?: Omit<BookingProviderProps, 'children'>)
-                : Cypress.Chainable<Element>;
+                providerOpts?: Omit<BookingProviderProps, 'children'>,
+            ): Cypress.Chainable<Element>;
         }
     }
 }

@@ -45,7 +45,7 @@ describe('<Button />', () => {
   });
 
   context('behavior tests', () => {
-    it('calls onChangeSpy', () => {
+    it('calls onChange', () => {
       mount();
 
       cy.dataCy(s).click();

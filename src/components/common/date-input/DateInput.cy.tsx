@@ -22,11 +22,9 @@ describe('<DateInput />', () => {
   context('render tests', () => {
     it('renders default', () => {
       cy.dataCy('date-field')
-        .get('span')
         .should('have.text', 'field title');
 
-      cy.dataCy('date-field')
-        .get('input')
+      cy.dataCy('date-field-input')
         .should('have.attr', 'type', 'date')
         .and('have.attr', 'value', '')
         .and('have.attr', 'min', '03-04-2024');
@@ -37,25 +35,22 @@ describe('<DateInput />', () => {
 
       mount({ value: propValue });
 
-      cy.dataCy('date-field')
-        .get('input')
+      cy.dataCy('date-field-input')
         .and('have.attr', 'value', propValue);
     });
   });
 
   context('behavior tests', () => {
-    it('calls onChangeSpy', () => {
+    it('calls onChange', () => {
       const newValue = '2024-08-14';
 
-      cy.dataCy('date-field')
-        .get('input')
+      cy.dataCy('date-field-input')
         .type(newValue);
 
       cy.get('@onChangeSpy')
         .should('be.calledOnce');
 
-      cy.dataCy('date-field')
-        .get('input')
+      cy.dataCy('date-field-input')
         .should('have.value', newValue);
     });
 

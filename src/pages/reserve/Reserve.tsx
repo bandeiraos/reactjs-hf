@@ -40,7 +40,7 @@ function Reserve() {
         return <NotFound />;
 
     return (
-        <div>
+        <div data-cy="reserve">
             <PageTitle title='Availability' />
 
             <section>
@@ -56,7 +56,7 @@ function Reserve() {
 
             <section className='mt-8'>
                 <div className='mb-4'>
-                    <span className='font-bold'>About the property:</span>
+                    <span data-cy="reserve-about-property-title" className='font-bold'>About the property:</span>
                 </div>
 
                 <PropertyCard {...property} />

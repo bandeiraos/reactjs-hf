@@ -47,7 +47,7 @@ describe('<BookingCard />', () => {
   });
 
   context('behavior tests', () => {
-    it('calls handleClickDeleteSpy', () => {
+    it('calls handleClickDelete', () => {
       cy.dataCy('booking-card-delete-btn').click();
 
       cy.get('@handleClickDeleteSpy')

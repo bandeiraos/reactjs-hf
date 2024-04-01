@@ -12,6 +12,7 @@ function DateInput(props: DateInputProps) {
         <label data-cy="date-field" className="flex flex-col">
             <span className="font-bold">{title}</span>
             <input
+                data-cy="date-field-input"
                 className="p-3 border rounded"
                 type="date"
                 onChange={onChange}

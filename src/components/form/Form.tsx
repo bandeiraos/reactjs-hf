@@ -7,7 +7,7 @@ import Button from "../common/button/Button";
 
 const todayMin = moment().format('yyyy-MM-DD');
 
-type FormProps = {
+export type FormProps = {
     startDate: string;
     endDate: string;
     bookings: BookingType[],
@@ -46,43 +46,52 @@ function Form(props: FormProps) {
         if (!errors.start.length && !errors.end.length)
             return null;
 
-
-        return Object.keys(errors).map((type) =>
-            <ul key={type} className="flex flex-col mt-2">
-                {errors[type as keyof typeof errors].map((s: string) => (
-                    <li key={s} className="text-red-500 mt-1 list-inside list-disc">{s}</li>
-                ))}
-            </ul>
+        return (
+            <div data-cy="form-errors" className="mt-2">
+                {Object.keys(errors).map((type) =>
+                    <ul key={type} className="flex flex-col mt-2">
+                        {errors[type as keyof typeof errors].map((s: string) => (
+                            <li key={s} className="text-red-500 mt-1 list-inside list-disc">{s}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         );
-
     }, [errors]);
 
+    const infoMemo = useMemo(() => {
+        if (!shouldShowInfo || !info)
+            return null;
+
+        return (
+            <div data-cy="form-info" className="mt-4 flex justify-around md:justify-end md:gap-8">
+                <div data-cy="form-info-nights">
+                    <strong>🌃 Nights: </strong>
+                    <span className="text-xl">{`${info.nights}`}</span>
+                </div>
+                <div data-cy="form-info-total">
+                    <strong>💲 Total: </strong>
+                    <span className="text-xl">{formatCurrency(info.total)}</span>
+                </div>
+            </div>
+        );
+
+    }, [shouldShowInfo, info]);
+
     return (
-        <div>
+        <div data-cy="form">
             <div className="flex flex-col gap-2">
                 <DateInput title="Start date:" onChange={(e) => setStart(e.target.value)} value={start} min={todayMin} />
                 <DateInput title="End date:" onChange={(e) => setEnd(e.target.value)} value={end} min={todayMin} />
             </div>
 
-            <div className="mt-2">
-                {errorsMemo}
-            </div>
+            {errorsMemo}
 
-            {shouldShowInfo && info && (
-                <div className="mt-4 flex justify-around md:justify-end md:gap-8">
-                    <div>
-                        <strong>🌃 Nights: </strong>
-                        <span className="text-xl">{`${info.nights}`}</span>
-                    </div>
-                    <div>
-                        <strong>💲 Total: </strong>
-                        <span className="text-xl">{formatCurrency(info.total)}</span>
-                    </div>
-                </div>
-            )}
+            {infoMemo}
 
             <div className="flex justify-end mt-4">
                 <Button
+                    dataCy="form-reserve-btn"
                     title={isEdit ? 'Apply changes' : 'Reserve'}
                     onClick={handleReserve}
                     disabled={!!errors.end.length || !!errors.start.length || !start || !end}
