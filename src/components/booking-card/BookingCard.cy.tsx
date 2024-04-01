@@ -1,20 +1,23 @@
 import BookingCard from './BookingCard';
-import booking from '../../../cypress/fixtures/booking.json';
 import { formatCurrency, formatDate } from '../../utils/utils';
+import { BookingType } from '../../types/types';
 
 describe('<BookingCard />', () => {
+  let booking: BookingType;
+
   const mount = () => {
     const handleClickDeleteSpy = cy.spy().as('handleClickDeleteSpy');
-
-    cy.fixture('booking').then((data) => {
-      cy.log(data);
-      cy.mountAll(<BookingCard
-        booking={data}
-        handleClickDelete={handleClickDeleteSpy}
-      />);
-
-    });
+    cy.mountAll(<BookingCard
+      booking={booking}
+      handleClickDelete={handleClickDeleteSpy}
+    />);
   };
+
+  before(() => {
+    cy.fixture('booking').then((data) => {
+      booking = data;
+    });
+  });
 
   beforeEach(() => mount());
 

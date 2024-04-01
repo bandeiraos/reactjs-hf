@@ -1,0 +1,34 @@
+[
+    {
+        "id": "735e947a",
+        "idProperty": "1",
+        "startDate": "2024-04-03",
+        "endDate": "2024-04-05",
+        "total": 1000,
+        "nights": 2
+    },
+    {
+        "id": "121e571a",
+        "idProperty": "1",
+        "startDate": "2024-05-08",
+        "endDate": "2024-05-09",
+        "total": 500,
+        "nights": 1
+    },
+    {
+        "id": "222f33aa",
+        "idProperty": "1",
+        "startDate": "2024-05-15",
+        "endDate": "2024-05-18",
+        "total": 1500,
+        "nights": 3
+    },
+    {
+        "id": "f3e0e6f2",
+        "idProperty": "3",
+        "startDate": "2024-04-08",
+        "endDate": "2024-04-09",
+        "total": 325,
+        "nights": 1
+    }
+]

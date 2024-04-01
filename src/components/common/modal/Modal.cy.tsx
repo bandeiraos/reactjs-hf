@@ -22,11 +22,11 @@ describe('<Modal />', () => {
     it('renders content', () => {
       cy.dataCy('mock-body').should('have.text', 'mock body');
       cy.dataCy('confirm-btn').should('have.text', 'confirm');
-      cy.dataCy('cancel-btn').should('have.text', 'Cancel');
+      cy.dataCy('modal-cancel-btn').should('have.text', 'Cancel');
     });
 
     it('renders with cancel button focused', () => {
-      cy.dataCy('cancel-btn').should('be.focused');
+      cy.dataCy('modal-cancel-btn').should('be.focused');
     });
 
     it('locks scroll bar', () => {
@@ -37,7 +37,7 @@ describe('<Modal />', () => {
 
   context('behavior tests', () => {
     it('calls onCancelSpy', () => {
-      cy.dataCy('cancel-btn').click();
+      cy.dataCy('modal-cancel-btn').click();
       cy.get('@onCancelSpy').should('have.been.calledOnce');
     });
   });

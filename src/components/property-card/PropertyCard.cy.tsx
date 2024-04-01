@@ -1,20 +1,25 @@
-import PropertyCard from './PropertyCard';
+import PropertyCard, { PropertyCardProps } from './PropertyCard';
 import propertyImg from '../../../public/images/properties/p1.webp';
-import property from '../../../cypress/fixtures/property.json';
 
 describe('<PropertyCard />', () => {
-  const mount = (showButton?: boolean) => {
-    cy.fixture('property').then(data => {
-      const props = { ...data, img: propertyImg };
+  let property: PropertyCardProps;
 
-      cy.mountAll(
-        <PropertyCard
-          {...props}
-          showButton={showButton}
-        />
-      );
-    });
+  const mount = (showButton?: boolean) => {
+    const props = { ...property, img: propertyImg };
+
+    cy.mountAll(
+      <PropertyCard
+        {...props}
+        showButton={showButton}
+      />
+    );
   };
+
+  before(() => {
+    cy.fixture('property').then(data => {
+      property = data;
+    });
+  });
 
   it('renders default (without availability button)', () => {
     mount();

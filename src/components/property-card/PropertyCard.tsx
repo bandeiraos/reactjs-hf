@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { PropertyType } from '../../types/types';
 import { formatCurrency } from '../../utils/utils';
 
-type PropertyCardProps = {
+export type PropertyCardProps = {
     showButton?: boolean;
 } & PropertyType;
 

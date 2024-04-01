@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useBookingContext } from "../../context/context";
 import { BookingType, DeleteBookingInfoType, PropertyType } from "../../types/types";
 import { formatDate, groupBookings } from "../../utils/utils";
@@ -15,10 +15,7 @@ function Bookings() {
     const bookingsGrouped = groupBookings(bookings);
 
     const handleOpenDeleteModal = useCallback((booking: BookingType, property: PropertyType) => {
-        setDeleteInfo({
-            booking,
-            property
-        });
+        setDeleteInfo({ booking, property });
 
         setToggleModal(true);
     }, []);
@@ -31,31 +28,15 @@ function Bookings() {
         }
     }, [deleteInfo, handleDeleteBooking]);
 
-    const bodyMemo = useMemo(() => {
-        if (!deleteInfo) return;
-        return (
-            <div>
-                <span className="font-bold">Are you sure you want to remove this booking?</span>
-                <div className="mt-4">
-                    <ul>
-                        <li><strong>ID: </strong><span className="text-xs">{deleteInfo?.booking.id}</span></li>
-                        <li><strong>Location: </strong>{deleteInfo?.property.name}</li>
-                        <li><strong>Dates: </strong>{formatDate(deleteInfo?.booking.startDate)} - {formatDate(deleteInfo?.booking.endDate)}</li>
-                    </ul>
-                </div>
-            </div>
-        );
-    }, [deleteInfo]);
-
     return (
         <div>
             <PageTitle title="My Bookings" />
 
             {toggleModal && deleteInfo &&
                 <Modal
-                    Body={bodyMemo}
+                    Body={<DeleteModalBody {...deleteInfo} />}
                     onCancel={() => setToggleModal(false)}
-                    ButtonConfirm={<Button title="Delete" onClick={handleConfirmDeletion} className="bg-red-600" />}
+                    ButtonConfirm={<Button dataCy="modal-delete-btn" title="Delete" onClick={handleConfirmDeletion} className="bg-red-600" />}
                 />
             }
 
@@ -67,7 +48,7 @@ function Bookings() {
                         const propertyBookings = bookingsGrouped[idP];
 
                         return (
-                            <div key={idP} className="mb-6">
+                            <div data-cy="booking-property" key={idP} className="mb-6">
                                 <div className="mb-4">
                                     <span className="font-bold text-xl text-slate-700">
                                         🏡 {property.name}
@@ -86,9 +67,26 @@ function Bookings() {
                         );
                     })}
             </div>
-
         </div>
     );
 }
+
+function DeleteModalBody(deleteInfo: DeleteBookingInfoType) {
+    return (
+        <div data-cy="modal-body">
+            <span className="font-bold">
+                Are you sure you want to remove this booking?
+            </span>
+            <div className="mt-4">
+                <ul>
+                    <li><strong>ID: </strong><span className="text-xs">{deleteInfo?.booking.id}</span></li>
+                    <li><strong>Property: </strong>{deleteInfo?.property.name}</li>
+                    <li><strong>Dates: </strong>{formatDate(deleteInfo?.booking.startDate)} - {formatDate(deleteInfo?.booking.endDate)}</li>
+                </ul>
+            </div>
+        </div>
+    );
+}
+
 
 export default Bookings;

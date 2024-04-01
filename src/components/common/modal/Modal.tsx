@@ -28,7 +28,7 @@ function Modal(props: ModalProps) {
                 <div> {props.Body} </div>
 
                 <div className="mt-4 flex justify-between">
-                    <Button dataCy="cancel-btn" btnRef={cancelBtnRef} title="Cancel" onClick={props.onCancel} className="bg-slate-500" />
+                    <Button dataCy="modal-cancel-btn" btnRef={cancelBtnRef} title="Cancel" onClick={props.onCancel} className="bg-slate-500" />
                     {props.ButtonConfirm}
                 </div>
             </div>
