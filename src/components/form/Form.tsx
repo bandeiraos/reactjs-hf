@@ -79,7 +79,7 @@ function Form(props: FormProps) {
     }, [shouldShowInfo, info]);
 
     return (
-        <div data-cy="form">
+        <div data-cy="form" className="px-2 md:px-0">
             <div className="flex flex-col gap-2">
                 <DateInput title="Start date:" onChange={(e) => setStart(e.target.value)} value={start} min={todayMin} />
                 <DateInput title="End date:" onChange={(e) => setEnd(e.target.value)} value={end} min={todayMin} />

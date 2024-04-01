@@ -1,4 +1,4 @@
-import { ERRORS } from "../../src/api/constants/constants";
+import { ERRORS } from "../../src/constants/constants";
 
 describe('Bkn app e2e tests', () => {
     const visit = (route = '') => {
