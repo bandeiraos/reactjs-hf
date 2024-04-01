@@ -1,6 +1,6 @@
 # booking app ~ pedro
 
-Vite, ReactJS, ContextAPI, TailwindCSS, Cypress.
+Vite, ReactJS, Typescript, ContextAPI, TailwindCSS, Cypress.
 
 - Create, list, update, delete booking;
 - Date validations (past date, same date, range between dates, etc);
