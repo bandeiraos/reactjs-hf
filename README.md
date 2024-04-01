@@ -10,9 +10,12 @@ Vite, ReactJS, ContextAPI, TailwindCSS, Cypress.
 // run
 npm run dev
 
+// http://localhost:5173/
+
 // component tests
 npx cypress run --component
 
 //e2e tests
 npx cypress run
+
 ```
