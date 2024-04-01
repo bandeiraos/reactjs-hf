@@ -1,4 +1,4 @@
-import { ERRORS } from "../../src/api/constants/constants";
+import { ERRORS } from "../../src/constants/constants";
 
 describe('Bkn app e2e tests', () => {
     const visit = (route = '') => {
@@ -125,6 +125,6 @@ describe('Bkn app e2e tests', () => {
         });
 
         // all other date validations are located in Form.cy.tsx
-        // this is just a e2e example
+        // this is just an e2e example
     });
 });

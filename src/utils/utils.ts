@@ -1,6 +1,6 @@
 import moment from "moment";
 import { BookingType, ErrorsType, NormalizedType } from "../types/types";
-import { ERRORS } from "../api/constants/constants";
+import { ERRORS } from "../constants/constants";
 
 export const normalizeData = <T extends { id: string; }>(array: T[]): NormalizedType<T> => {
     return array.reduce((obj: NormalizedType<T>, item: T) => {

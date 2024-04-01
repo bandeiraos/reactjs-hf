@@ -1,4 +1,4 @@
-import { ERRORS } from '../../api/constants/constants';
+import { ERRORS } from '../../constants/constants';
 import { BookingType } from '../../types/types';
 import { formatDate } from '../../utils/utils';
 import Form, { FormProps } from './Form';
